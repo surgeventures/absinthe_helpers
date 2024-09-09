@@ -8,7 +8,7 @@ defmodule AbsintheHelpers.Phases.ApplyTransforms do
   `AbsintheHelpers.Transforms.ToInteger`, or within your own project, as long
   as they implement the same behaviour.
 
-  ## Example Usage
+  ## Example usage
 
   To add this phase to your pipeline, add the following to your router:
 
@@ -73,10 +73,10 @@ defmodule AbsintheHelpers.Phases.ApplyTransforms do
   end
 
   defp handle_node(
-         %{
+         node = %{
            input_value: %{normalized: normalized},
            schema_node: %{__private__: private}
-         } = node
+         }
        ) do
     if transform?(private), do: apply_transforms(node, normalized), else: node
   end
