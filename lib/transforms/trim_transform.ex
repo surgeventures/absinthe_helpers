@@ -1,4 +1,4 @@
-defmodule AbsintheHelpers.Transforms.TrimTransform do
+defmodule AbsintheHelpers.Transforms.Trim do
   @moduledoc """
   A transformation that trims whitespace from string input values in an Absinthe
   schema.

@@ -143,18 +143,10 @@ defmodule AbsintheHelpers.Phases.ApplyTransforms do
     do: call_transform({transform}, input)
 
   defp call_transform(transform_tuple, input) when is_tuple(transform_tuple) do
-    [transform_name | transform_args] = Tuple.to_list(transform_tuple)
+    [transform_module | transform_args] = Tuple.to_list(transform_tuple)
     transform_args = if transform_args == [], do: [nil], else: transform_args
 
-    transform_camelized =
-      transform_name
-      |> Atom.to_string()
-      |> Macro.camelize()
-
-    transform_module =
-      String.to_existing_atom("Elixir.AbsintheHelpers.Transforms.#{transform_camelized}Transform")
-
-    apply(transform_module, :call, [input, transform_args])
+    transform_module.call(input, transform_args)
   end
 
   defp get_transforms(private) do

@@ -1,4 +1,4 @@
-defmodule AbsintheHelpers.Transforms.IncrementTransform do
+defmodule AbsintheHelpers.Transforms.Increment do
   alias Absinthe.Blueprint.Input
 
   @behaviour AbsintheHelpers.Transform

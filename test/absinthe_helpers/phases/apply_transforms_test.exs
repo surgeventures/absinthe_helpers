@@ -3,6 +3,9 @@ defmodule AbsintheHelpers.Phases.ApplyTransformsTest do
   use Mimic
 
   alias AbsintheHelpers.TestResolver
+  alias AbsintheHelpers.Transforms.ToInteger
+  alias AbsintheHelpers.Transforms.Trim
+  alias AbsintheHelpers.Transforms.Increment
 
   describe "apply transforms phase" do
     defmodule TestSchema do
@@ -16,9 +19,7 @@ defmodule AbsintheHelpers.Phases.ApplyTransformsTest do
 
       mutation do
         field(:create_booking, :string) do
-          arg(:customer_id, non_null(:id),
-            __private__: [meta: [transforms: [:trim, {:to_integer, true}]]]
-          )
+          arg(:customer_id, non_null(:id), __private__: [meta: [transforms: [Trim, ToInteger]]])
 
           arg(:service, non_null(:service_input))
 
@@ -27,13 +28,15 @@ defmodule AbsintheHelpers.Phases.ApplyTransformsTest do
       end
 
       input_object :service_input do
-        field(:employee_id, :id, meta: [transforms: [{:to_integer, true}]])
+        field(:employee_id, :id, meta: [transforms: [ToInteger]])
 
         field(:override_ids, non_null(list_of(non_null(:id)))) do
-          meta(transforms: [:trim, {:to_integer, true}])
+          meta(transforms: [Trim, ToInteger])
         end
 
-        field(:accumulator, :string, meta: [transforms: [:to_integer, {:increment, 3}]])
+        field(:accumulator, :string) do
+          meta(transforms: [ToInteger, {Increment, 3}])
+        end
       end
 
       def run_query(query) do

@@ -1,4 +1,4 @@
-defmodule AbsintheHelpers.Transforms.ToIntegerTransform do
+defmodule AbsintheHelpers.Transforms.ToInteger do
   @moduledoc """
   A transformation that converts string input values to integers in an Absinthe
   schema.
