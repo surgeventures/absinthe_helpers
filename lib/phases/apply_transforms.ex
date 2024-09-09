@@ -5,11 +5,8 @@ defmodule AbsintheHelpers.Phases.ApplyTransforms do
   nodes and lists of items.
 
   New transformations can be added in the `lib/transforms/` directory, like
-  `AbsintheHelpers.Transforms.ToIntegerTransform`, or within your own project,
-  as long as they follow the convention. For example, you could define a new
-  `:increment` transformation tag and create a corresponding
-  `AbsintheHelpers.Transforms.IncrementTransform` to increment numeric input
-  values.
+  `AbsintheHelpers.Transforms.ToInteger`, or within your own project, as long
+  as they implement the same behaviour.
 
   ## Example Usage
 
@@ -28,30 +25,34 @@ defmodule AbsintheHelpers.Phases.ApplyTransforms do
         |> AbsintheHelpers.Phases.ApplyTransforms.add_to_pipeline(opts)
       end
 
-  To define a custom transformation on a schema field:
+  Then apply transforms on a schema field:
+
+      alias AbsintheHelpers.Transforms.ToInteger
+      alias AbsintheHelpers.Transforms.Trim
+      alias AbsintheHelpers.Transforms.Increment
 
       field :employee_id, :id do
-        meta transforms: [:trim, :to_integer, :increment]
+        meta transforms: [Trim, ToInteger, {Increment, 3}]
       end
 
   or on a list:
 
       field :employee_ids, non_null(list_of(non_null(:id))) do
-        meta transforms: [:trim, :to_integer, :increment]
+        meta transforms: [Trim, ToInteger, {Increment, 3}]
       end
 
-  To define a custom transformation on a schema arg:
+  or on a schema arg:
 
       field(:create_booking, :string) do
         arg(:employee_id, non_null(:id),
-          __private__: [meta: [transforms: [:trim, :to_integer, :increment]]]
+          __private__: [meta: [transforms: [Trim, ToInteger, {Increment, 3}]]]
         )
 
         resolve(&TestResolver.run/3)
       end
 
-  In this case, both the `TrimTransforms`, `ToIntegerTransform`, and `IncrementTransform`
-  will be applied to the `employee_id` field.
+  In this case, both the `Trim`, `ToInteger`, and `Increment` will be applied
+  to the `employee_id` field.
   """
 
   use Absinthe.Phase

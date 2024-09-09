@@ -5,8 +5,10 @@ defmodule AbsintheHelpers.Transforms.ToInteger do
 
   Add the transformation in your schema:
 
+      alias AbsintheHelpers.Transforms.ToInteger
+
       field :employee_id, :id do
-        meta transforms: [:to_integer]
+        meta transforms: [ToInteger]
       end
   """
 
