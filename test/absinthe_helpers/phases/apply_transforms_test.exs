@@ -2,10 +2,11 @@ defmodule AbsintheHelpers.Phases.ApplyTransformsTest do
   use ExUnit.Case, async: true
   use Mimic
 
+  alias AbsintheHelpers.Phases.ApplyTransforms
   alias AbsintheHelpers.TestResolver
+  alias AbsintheHelpers.Transforms.Increment
   alias AbsintheHelpers.Transforms.ToInteger
   alias AbsintheHelpers.Transforms.Trim
-  alias AbsintheHelpers.Transforms.Increment
 
   describe "apply transforms phase" do
     defmodule TestSchema do
@@ -43,7 +44,7 @@ defmodule AbsintheHelpers.Phases.ApplyTransformsTest do
         Absinthe.run(
           query,
           __MODULE__,
-          pipeline_modifier: &AbsintheHelpers.Phases.ApplyTransforms.add_to_pipeline/2
+          pipeline_modifier: &ApplyTransforms.add_to_pipeline/2
         )
       end
     end
