@@ -32,6 +32,8 @@ defmodule AbsintheHelpers.Phases.ApplyTransformsTest do
         field(:override_ids, non_null(list_of(non_null(:id)))) do
           meta(transforms: [:trim, {:to_integer, true}])
         end
+
+        field(:accumulator, :string, meta: [transforms: [:to_integer, {:increment, 3}]])
       end
 
       def run_query(query) do
@@ -52,7 +54,8 @@ defmodule AbsintheHelpers.Phases.ApplyTransformsTest do
                    customer_id: 1,
                    service: %{
                      employee_id: 456,
-                     override_ids: [1, 2, 3]
+                     override_ids: [1, 2, 3],
+                     accumulator: 4
                    }
                  }
 
@@ -67,6 +70,7 @@ defmodule AbsintheHelpers.Phases.ApplyTransformsTest do
           service: {
             employee_id: "456",
             override_ids: ["1", "  2", "3"]
+            accumulator: "1"
           }
         )
       }
@@ -82,7 +86,8 @@ defmodule AbsintheHelpers.Phases.ApplyTransformsTest do
           customer_id: "1",
           service: {
             employee_id: "456",
-            override_ids: ["1", "invalid_id", "3"]
+            override_ids: ["1", "invalid_id", "3"],
+            accumulator: "1"
           }
         )
       }

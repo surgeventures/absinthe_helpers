@@ -3,5 +3,5 @@ defmodule AbsintheHelpers.Transform do
 
   alias Absinthe.Blueprint.Input
 
-  @callback call(Input.Value.t(), Keyword.t()) :: {:ok, Input.Value.t()} | {:error, atom()}
+  @callback call(Input.Value.t(), list()) :: {:ok, Input.Value.t()} | {:error, atom()}
 end

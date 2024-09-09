@@ -154,7 +154,7 @@ defmodule AbsintheHelpers.Phases.ApplyTransforms do
     transform_module =
       String.to_existing_atom("Elixir.AbsintheHelpers.Transforms.#{transform_camelized}Transform")
 
-    apply(transform_module, :call, [input | transform_args])
+    apply(transform_module, :call, [input, transform_args])
   end
 
   defp get_transforms(private) do
