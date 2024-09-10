@@ -42,6 +42,12 @@ defmodule AbsintheHelpers.Phases.ApplyConstraintsTest do
           non_null(list_of(non_null(:integer))),
           directives: [constraints: [min_items: 2, min: 5, max: 50]]
         )
+
+        field(
+          :commission_ids,
+          non_null(list_of(non_null(:integer))),
+          directives: [constraints: [max_items: 2]]
+        )
       end
 
       def run_query(query) do
@@ -62,7 +68,8 @@ defmodule AbsintheHelpers.Phases.ApplyConstraintsTest do
             cost: "150.75",
             description: "Valid description",
             override_ids: [6, 7, 8],
-            location_ids: [8, 9, 10]
+            location_ids: [8, 9, 10],
+            commission_ids: []
           }
         )
       }
@@ -80,7 +87,8 @@ defmodule AbsintheHelpers.Phases.ApplyConstraintsTest do
             cost: "5.00",
             description: "bad",
             override_ids: [6, 1, 7],
-            location_ids: [1]
+            location_ids: [1],
+            commission_ids: [1, 2, 3]
           }
         )
       }
@@ -99,6 +107,10 @@ defmodule AbsintheHelpers.Phases.ApplyConstraintsTest do
                   %{
                     message: :min_items_not_met,
                     details: %{field: "location_ids", min_items: 2, items: [1]}
+                  },
+                  %{
+                    message: :max_items_exceeded,
+                    details: %{field: "commission_ids", items: [1, 2, 3], max_items: 2}
                   }
                 ]
               }} = TestSchema.run_query(query)
