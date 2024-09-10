@@ -7,7 +7,7 @@ env:
   JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
   OTP_VERSION: 26.2.5  # OTP version used during package publishing
   RELEVANT_FILES: 'mix.lock mix.exs lib config test' # Important, this controls the caching, make sure to keep this right
-  REPOSITORY: heartbeats
+  REPOSITORY: absinthe_helpers
   RUNNER_OS: ubuntu22 # Must match Elixir/OTP version in described in action erlef/setup-beam@v1
   SHA: ${{ github.sha }}
 
@@ -22,7 +22,7 @@ on:
 jobs:
   dev-publish:
     name: Dev Publish
-    runs-on: 
+    runs-on:
       - runs-on
       - runner=4cpu-linux-x64
 
