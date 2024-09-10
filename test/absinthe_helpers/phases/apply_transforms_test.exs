@@ -87,17 +87,32 @@ defmodule AbsintheHelpers.Phases.ApplyTransformsTest do
       query = """
       mutation {
         create_booking(
-          customer_id: "1",
+          customer_id: "bad",
           service: {
             employee_id: "456",
-            override_ids: ["1", "invalid_id", "3"],
+            override_ids: ["1", "abc123", "3"],
             accumulator: "1"
           }
         )
       }
       """
 
-      assert TestSchema.run_query(query) == {:ok, %{errors: [%{message: :invalid_integer}]}}
+      assert TestSchema.run_query(query) ==
+               {
+                 :ok,
+                 %{
+                   errors: [
+                     %{
+                       message: :invalid_integer,
+                       details: %{field: "customer_id", value: "bad"}
+                     },
+                     %{
+                       message: :invalid_integer,
+                       details: %{field: "override_ids", value: "abc123"}
+                     }
+                   ]
+                 }
+               }
     end
   end
 end

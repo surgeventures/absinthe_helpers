@@ -88,8 +88,8 @@ defmodule AbsintheHelpers.Phases.ApplyTransforms do
       {:ok, new_items} ->
         %{node | input_value: %{node.input_value | normalized: %Input.List{items: new_items}}}
 
-      {:error, reason} ->
-        add_custom_error(node, reason)
+      {:error, reason, details} ->
+        add_custom_error(node, reason, details)
     end
   end
 
@@ -98,8 +98,8 @@ defmodule AbsintheHelpers.Phases.ApplyTransforms do
       {:ok, transformed_value} ->
         %{node | input_value: %{node.input_value | data: transformed_value.data}}
 
-      {:error, reason} ->
-        add_custom_error(node, reason)
+      {:error, reason, details} ->
+        add_custom_error(node, reason, details)
     end
   end
 
@@ -109,7 +109,7 @@ defmodule AbsintheHelpers.Phases.ApplyTransforms do
     Enum.reduce_while(items, {:ok, []}, fn item, {:ok, acc} ->
       case transform_item(item, private_tags) do
         {:ok, transformed_item} -> {:cont, {:ok, acc ++ [transformed_item]}}
-        {:error, reason} -> {:halt, {:error, reason}}
+        {:error, reason, details} -> {:halt, {:error, reason, details}}
       end
     end)
   end
@@ -162,10 +162,13 @@ defmodule AbsintheHelpers.Phases.ApplyTransforms do
     |> Enum.any?()
   end
 
-  defp add_custom_error(node, reason) do
+  defp add_custom_error(node, reason, details) do
     Absinthe.Phase.put_error(node, %Absinthe.Phase.Error{
       phase: __MODULE__,
-      message: reason
+      message: reason,
+      extra: %{
+        details: Map.merge(details, %{field: node.name})
+      }
     })
   end
 end
