@@ -10,7 +10,11 @@ defmodule AbsintheHelpers.MixProject do
       deps: deps(),
       description: description(),
       package: package(),
-      elixirc_paths: elixirc_paths(Mix.env())
+      elixirc_paths: elixirc_paths(Mix.env()),
+      docs: [
+        main: "readme",
+        extras: ["README.md"]
+      ]
     ]
   end
 
