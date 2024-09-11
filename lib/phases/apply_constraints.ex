@@ -24,13 +24,15 @@ defmodule AbsintheHelpers.Phases.ApplyConstraints do
 
   Apply constraints to a field or argument:
 
-      field :my_field, :integer, directives: [constraints: [min: 1, max: 10]] do
+      field :my_list, list_of(:integer) do
+        directive(:constraints, [min_items: 2, max_items: 5, min: 1, max: 100])
+
         resolve(&MyResolver.resolve/3)
       end
 
-      arg :my_arg, non_null(:string), directives: [constraints: [min: 10]]
+      field :my_field, :integer do
+        arg :my_arg, non_null(:string), directives: [constraints: [min: 10]]
 
-      field :my_list, list_of(:integer), directives: [constraints: [min_items: 2, max_items: 5, min: 1, max: 100]] do
         resolve(&MyResolver.resolve/3)
       end
   """

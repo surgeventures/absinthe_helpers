@@ -29,25 +29,22 @@ defmodule AbsintheHelpers.Phases.ApplyConstraintsTest do
 
       input_object :service_input do
         field(:cost, :decimal, directives: [constraints: [min: 10, max: 1000]])
-        field(:description, :string, directives: [constraints: [min: 5, max: 50]])
 
-        field(
-          :override_ids,
-          non_null(list_of(non_null(:integer))),
-          directives: [constraints: [min_items: 3, min: 5, max: 50]]
-        )
+        field(:description, :string) do
+          directive(:constraints, min: 5, max: 50)
+        end
 
-        field(
-          :location_ids,
-          non_null(list_of(non_null(:integer))),
-          directives: [constraints: [min_items: 2, min: 5, max: 50]]
-        )
+        field(:override_ids, non_null(list_of(non_null(:integer)))) do
+          directive(:constraints, min_items: 3, min: 5, max: 50)
+        end
 
-        field(
-          :commission_ids,
-          non_null(list_of(non_null(:integer))),
-          directives: [constraints: [max_items: 2]]
-        )
+        field(:location_ids, non_null(list_of(non_null(:integer)))) do
+          directive(:constraints, min_items: 2, min: 5, max: 50)
+        end
+
+        field(:commission_ids, non_null(list_of(non_null(:integer)))) do
+          directive(:constraints, max_items: 2)
+        end
       end
 
       def run_query(query) do
