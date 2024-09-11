@@ -96,18 +96,18 @@ defmodule AbsintheHelpers.Phases.ApplyConstraintsTest do
                 errors: [
                   %{
                     message: :max_exceeded,
-                    details: %{field: "customer_id", max: 1000, value: 1001}
+                    details: %{field: "customer_id", max: 1000}
                   },
-                  %{message: :min_not_met, details: %{field: "cost", min: 10, value: %Decimal{}}},
-                  %{message: :min_not_met, details: %{field: "description", min: 5, value: "bad"}},
-                  %{message: :min_not_met, details: %{field: "override_ids", min: 5, value: 1}},
+                  %{message: :min_not_met, details: %{field: "cost", min: 10}},
+                  %{message: :min_not_met, details: %{field: "description", min: 5}},
+                  %{message: :min_not_met, details: %{field: "override_ids", min: 5}},
                   %{
                     message: :min_items_not_met,
-                    details: %{field: "location_ids", min_items: 2, items: [1]}
+                    details: %{field: "location_ids", min_items: 2}
                   },
                   %{
                     message: :max_items_exceeded,
-                    details: %{field: "commission_ids", items: [1, 2, 3], max_items: 2}
+                    details: %{field: "commission_ids", max_items: 2}
                   }
                 ]
               }} = TestSchema.run_query(query)

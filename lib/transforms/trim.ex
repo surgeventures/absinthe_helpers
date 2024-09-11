@@ -22,5 +22,5 @@ defmodule AbsintheHelpers.Transforms.Trim do
     {:ok, %{item | data: String.trim(data)}}
   end
 
-  def call(%Input.Value{data: data}, _), do: {:error, :invalid_value, %{value: data}}
+  def call(%Input.Value{data: _data}, _), do: {:error, :invalid_value, %{}}
 end

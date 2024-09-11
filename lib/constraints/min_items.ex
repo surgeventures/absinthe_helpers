@@ -5,7 +5,7 @@ defmodule AbsintheHelpers.Constraints.MinItems do
 
   def call(node = %{items: items}, {:min_items, min_items}) do
     if Enum.count(items) < min_items do
-      {:error, :min_items_not_met, %{min_items: min_items, items: Enum.map(items, & &1.data)}}
+      {:error, :min_items_not_met, %{min_items: min_items}}
     else
       {:ok, node}
     end

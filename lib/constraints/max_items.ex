@@ -5,7 +5,7 @@ defmodule AbsintheHelpers.Constraints.MaxItems do
 
   def call(node = %{items: items}, {:max_items, max_items}) do
     if Enum.count(items) > max_items do
-      {:error, :max_items_exceeded, %{max_items: max_items, items: Enum.map(items, & &1.data)}}
+      {:error, :max_items_exceeded, %{max_items: max_items}}
     else
       {:ok, node}
     end
