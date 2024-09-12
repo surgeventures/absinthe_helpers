@@ -18,7 +18,17 @@ defmodule AbsintheHelpers.Phases.ApplyConstraints do
 
       defmodule MyApp.Schema do
         use Absinthe.Schema
+
         @prototype_schema AbsintheHelpers.Directives.Constraints
+
+        directive :constraints do
+          on([:argument_definition, :field_definition, :input_field_definition])
+
+          arg(:min, :integer, description: "Minimum value allowed")
+          arg(:max, :integer, description: "Maximum value allowed")
+          arg(:min_items, :integer, description: "Minimum number of items allowed in a list")
+          arg(:max_items, :integer, description: "Maximum number of items allowed in a list")
+        end
         # ...
       end
 
