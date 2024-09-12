@@ -14,13 +14,11 @@ defmodule AbsintheHelpers.Transforms.Trim do
       end
   """
 
-  alias Absinthe.Blueprint.Input
-
   @behaviour AbsintheHelpers.Transform
 
-  def call(%Input.Value{data: data} = item, _opts) when is_binary(data) do
+  def call(%{data: data} = item, _opts) when is_binary(data) do
     {:ok, %{item | data: String.trim(data)}}
   end
 
-  def call(%Input.Value{data: _data}, _), do: {:error, :invalid_value, %{}}
+  def call(%{data: _data}, _), do: {:error, :invalid_value, %{}}
 end

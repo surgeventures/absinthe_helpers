@@ -12,7 +12,7 @@ Add `absinthe_helpers` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:absinthe_helpers, "~> 0.1.0", organization: "fresha"}
+    {:absinthe_helpers, "~> 0.1.0"}
   ]
 end
 ```

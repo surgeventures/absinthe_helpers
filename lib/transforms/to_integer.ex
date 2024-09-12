@@ -12,16 +12,14 @@ defmodule AbsintheHelpers.Transforms.ToInteger do
       end
   """
 
-  alias Absinthe.Blueprint.Input
-
   @behaviour AbsintheHelpers.Transform
 
-  def call(%Input.Value{data: data} = item, _opts) when is_binary(data) do
+  def call(%{data: data} = item, _opts) when is_binary(data) do
     case Integer.parse(data) do
       {int, ""} -> {:ok, %{item | data: int}}
       _ -> {:error, :invalid_integer, %{}}
     end
   end
 
-  def call(%Input.Value{data: _data}, _opts), do: {:error, :invalid_integer, %{}}
+  def call(%{data: _data}, _opts), do: {:error, :invalid_integer, %{}}
 end
