@@ -104,11 +104,11 @@ defmodule AbsintheHelpers.Phases.ApplyTransformsTest do
                    errors: [
                      %{
                        message: :invalid_integer,
-                       details: %{field: "customer_id", value: "bad"}
+                       details: %{field: "customer_id"}
                      },
                      %{
                        message: :invalid_integer,
-                       details: %{field: "override_ids", value: "abc123"}
+                       details: %{field: "override_ids"}
                      }
                    ]
                  }

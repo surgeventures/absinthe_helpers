@@ -4,13 +4,17 @@ defmodule AbsintheHelpers.MixProject do
   def project do
     [
       app: :absinthe_helpers,
-      version: "0.1.3",
+      version: "0.1.4",
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
       package: package(),
-      elixirc_paths: elixirc_paths(Mix.env())
+      elixirc_paths: elixirc_paths(Mix.env()),
+      docs: [
+        main: "readme",
+        extras: ["README.md"]
+      ]
     ]
   end
 
@@ -32,7 +36,8 @@ defmodule AbsintheHelpers.MixProject do
       {:dialyxir, "~> 1.0", only: :dev, runtime: false},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false},
       {:absinthe, "~> 1.0"},
-      {:mimic, "~> 1.10", only: :test}
+      {:mimic, "~> 1.10", only: :test},
+      {:decimal, "~> 1.9"}
     ]
   end
 
