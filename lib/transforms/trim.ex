@@ -16,7 +16,9 @@ defmodule AbsintheHelpers.Transforms.Trim do
 
   @behaviour AbsintheHelpers.Transform
 
-  def call(%{data: data} = item, _opts) when is_binary(data) do
+  def call(item = %{data: nil}, _opts), do: {:ok, item}
+
+  def call(item = %{data: data}, _opts) when is_binary(data) do
     {:ok, %{item | data: String.trim(data)}}
   end
 

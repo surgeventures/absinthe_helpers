@@ -3,6 +3,12 @@ defmodule AbsintheHelpers.Transforms.TrimTest do
 
   alias AbsintheHelpers.Transforms.Trim
 
+  test "trim transformation on nil value" do
+    input = %{data: nil}
+
+    assert {:ok, %{data: nil}} = Trim.call(input, [])
+  end
+
   test "trim transformation on string" do
     input = %{data: "  hello  "}
 

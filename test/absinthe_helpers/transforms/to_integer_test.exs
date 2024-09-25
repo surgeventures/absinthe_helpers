@@ -3,6 +3,12 @@ defmodule AbsintheHelpers.Transforms.ToIntegerTest do
 
   alias AbsintheHelpers.Transforms.ToInteger
 
+  test "to_integer transformation on nil value" do
+    input = %{data: nil}
+
+    assert {:ok, %{data: nil}} = ToInteger.call(input, [])
+  end
+
   test "to_integer transformation on valid string" do
     input = %{data: "123"}
 
