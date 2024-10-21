@@ -37,7 +37,7 @@ defmodule AbsintheHelpers.MixProject do
       {:ex_doc, "~> 0.34", only: :dev, runtime: false},
       {:absinthe, "~> 1.0"},
       {:mimic, "~> 1.10", only: :test},
-      {:decimal, "~> 1.9"}
+      {:decimal, "~> 2.0"}
     ]
   end
 
