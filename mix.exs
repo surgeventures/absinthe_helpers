@@ -4,7 +4,7 @@ defmodule AbsintheHelpers.MixProject do
   def project do
     [
       app: :absinthe_helpers,
-      version: "0.1.7",
+      version: "0.1.8",
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -37,7 +37,7 @@ defmodule AbsintheHelpers.MixProject do
       {:ex_doc, "~> 0.34", only: :dev, runtime: false},
       {:absinthe, "~> 1.0"},
       {:mimic, "~> 1.10", only: :test},
-      {:decimal, "~> 1.9"}
+      {:decimal, "~> 1.9 or ~> 2.0"}
     ]
   end
 
