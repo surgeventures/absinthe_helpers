@@ -1,15 +1,11 @@
 defmodule AbsintheHelpers.Constraints.Regex do
   @moduledoc """
-  Applies regex constraint on node data only when the data is binary.
+  Applies regex constraint on node data. This constraint can only be applied to String types.
   """
 
   @behaviour AbsintheHelpers.Constraint
 
-  def call(node = %{items: _items}, {:regex, _min}) do
-    {:ok, node}
-  end
-
-  def call(node = %{data: data}, {:regex, regex}) when is_binary(data) do
+  def call(node = %{data: data}, {:regex, regex}) do
     if data =~ regex do
       {:ok, node}
     else
