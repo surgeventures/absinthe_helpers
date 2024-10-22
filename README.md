@@ -59,6 +59,7 @@ defmodule MyApp.Schema do
     arg(:max, :integer, description: "Maximum value allowed")
     arg(:min_items, :integer, description: "Minimum number of items allowed in a list")
     arg(:max_items, :integer, description: "Maximum number of items allowed in a list")
+    arg(:regex, :string, description: "Pattern to match for a string")
   end
 
   query do
@@ -101,7 +102,7 @@ field :my_list, list_of(:integer) do
 end
 
 field :my_field, :integer do
-  arg :my_arg, non_null(:string), directives: [constraints: [min: 10]]
+  arg :my_arg, non_null(:string), directives: [constraints: [min: 10, regex: "^[a-zA-Z]+$"]]
 
   resolve(&MyResolver.resolve/3)
 end
