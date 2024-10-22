@@ -5,11 +5,12 @@ defmodule AbsintheHelpers.Directives.Constraints do
   Supports:
   - `:min`, `:max`: For numbers and string lengths
   - `:min_items`, `:max_items`: For lists
+  - `:regex`: For strings
 
   Applicable to scalars (:string, :integer, :float, :decimal) and lists.
 
   Example:
-      field :username, :string, directives: [constraints: [min: 3, max: 20]]
+      field :username, :string, directives: [constraints: [min: 3, max: 20, regex: "^[a-zA-Z]+$"]]
       arg :tags, list_of(:string), directives: [constraints: [max_items: 5, max: 10]]
 
   Constraints are automatically enforced during query execution.
@@ -20,7 +21,7 @@ defmodule AbsintheHelpers.Directives.Constraints do
   alias Absinthe.Blueprint.TypeReference.{List, NonNull}
 
   @constraints %{
-    string: [:min, :max],
+    string: [:min, :max, :regex],
     number: [:min, :max],
     list: [:min, :max, :min_items, :max_items]
   }
@@ -30,8 +31,11 @@ defmodule AbsintheHelpers.Directives.Constraints do
 
     arg(:min, :integer, description: "Minimum value allowed")
     arg(:max, :integer, description: "Maximum value allowed")
+
     arg(:min_items, :integer, description: "Minimum number of items allowed in a list")
     arg(:max_items, :integer, description: "Maximum number of items allowed in a list")
+
+    arg(:regex, :string, description: "Pattern to match for a string")
 
     expand(&__MODULE__.expand_constraints/2)
   end
