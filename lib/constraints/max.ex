@@ -3,7 +3,7 @@ defmodule AbsintheHelpers.Constraints.Max do
 
   @behaviour AbsintheHelpers.Constraint
 
-  def call(node = %{items: _items}, {:max, _min}) do
+  def call(node = %{items: _items}, {:max, _max}) do
     {:ok, node}
   end
 
