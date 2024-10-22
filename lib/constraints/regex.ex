@@ -6,7 +6,7 @@ defmodule AbsintheHelpers.Constraints.Regex do
   @behaviour AbsintheHelpers.Constraint
 
   def call(node = %{data: data}, {:regex, regex}) do
-    if data =~ regex do
+    if data =~ Regex.compile!(regex) do
       {:ok, node}
     else
       {:error, :invalid_format, %{regex: regex}}

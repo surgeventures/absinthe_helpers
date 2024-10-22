@@ -30,8 +30,10 @@ defmodule AbsintheHelpers.Directives.Constraints do
 
     arg(:min, :integer, description: "Minimum value allowed")
     arg(:max, :integer, description: "Maximum value allowed")
+
     arg(:min_items, :integer, description: "Minimum number of items allowed in a list")
     arg(:max_items, :integer, description: "Maximum number of items allowed in a list")
+
     arg(:regex, :string, description: "Pattern to match for a string")
 
     expand(&__MODULE__.expand_constraints/2)
