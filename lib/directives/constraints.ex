@@ -5,11 +5,12 @@ defmodule AbsintheHelpers.Directives.Constraints do
   Supports:
   - `:min`, `:max`: For numbers and string lengths
   - `:min_items`, `:max_items`: For lists
+  - `:regex`: For strings
 
   Applicable to scalars (:string, :integer, :float, :decimal) and lists.
 
   Example:
-      field :username, :string, directives: [constraints: [min: 3, max: 20]]
+      field :username, :string, directives: [constraints: [min: 3, max: 20, regex: "^[a-zA-Z]+$"]]
       arg :tags, list_of(:string), directives: [constraints: [max_items: 5, max: 10]]
 
   Constraints are automatically enforced during query execution.

@@ -31,7 +31,7 @@ defmodule AbsintheHelpers.Phases.ApplyConstraintsTest do
         field(:cost, :decimal, directives: [constraints: [min: 10, max: 1000]])
 
         field(:description, :string) do
-          directive(:constraints, min: 5, max: 50)
+          directive(:constraints, regex: "^[a-zA-Z\s]+$", min: 5, max: 50)
         end
 
         field(:override_ids, non_null(list_of(non_null(:integer)))) do
@@ -108,6 +108,33 @@ defmodule AbsintheHelpers.Phases.ApplyConstraintsTest do
                   %{
                     message: :max_items_exceeded,
                     details: %{field: "commission_ids", max_items: 2}
+                  }
+                ]
+              }} = TestSchema.run_query(query)
+    end
+
+    test "returns invalid_format on strings that do not match regex pattern" do
+      query = """
+      mutation {
+        create_booking(
+          customer_id: 1,
+          service: {
+            cost: "150.75",
+            description: "invalid-description",
+            override_ids: [6, 7, 8],
+            location_ids: [8, 9, 10],
+            commission_ids: []
+          }
+        )
+      }
+      """
+
+      assert {:ok,
+              %{
+                errors: [
+                  %{
+                    message: :invalid_format,
+                    details: %{field: "description", regex: "^[a-zA-Z\s]+$"}
                   }
                 ]
               }} = TestSchema.run_query(query)
