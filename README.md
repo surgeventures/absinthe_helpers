@@ -1,9 +1,10 @@
 # Absinthe Helpers
 
-This package provides two key features:
+This package provides three key features:
 
-1. **constraints**: enforce validation rules (like `min`, `max`, etc.) on fields and arguments in your schema.
-2. **transforms**: apply custom transformations (like `Trim`, `ToInteger`, etc.) to input fields and arguments.
+1. **constraints**: enforce validation rules (like `min`, `max`, etc.) on fields and arguments in your schema
+2. **transforms**: apply custom transformations (like `Trim`, `ToInteger`, etc.) to input fields and arguments
+3. **error formatting**: GraphQL specification compliant error formatting for validation and transform failures
 
 ## Installation
 
@@ -23,11 +24,11 @@ Then, run:
 mix deps.get
 ```
 
-### Setup: adding constraints and transforms to your Absinthe pipeline
+### Setup: adding constraints, transforms, and error formatting to your Absinthe pipeline
 
-To set up both **constraints** and **transforms**, follow these steps:
+Follow these steps:
 
-1. Add constraints and transforms to your Absinthe pipeline:
+1. Add constraints, transforms, and error formatting to your Absinthe pipeline:
 
 ```elixir
 forward "/graphql",
@@ -42,6 +43,7 @@ def absinthe_pipeline(config, opts) do
   |> Absinthe.Plug.default_pipeline(opts)
   |> AbsintheHelpers.Phases.ApplyConstraints.add_to_pipeline(opts)
   |> AbsintheHelpers.Phases.ApplyTransforms.add_to_pipeline(opts)
+  |> AbsintheHelpers.Phases.ApplyErrorFormatting.add_to_pipeline(opts)
 end
 ```
 
@@ -146,4 +148,56 @@ field(:create_booking, :string) do
 
   resolve(&TestResolver.run/3)
 end
+```
+
+## Error Formatting
+
+The package includes GraphQL specification compliant error formatting. When enabled, validation errors from constraints or transform failures are formatted consistently.
+
+For multiple related errors, they are grouped under a single error with BAD_USER_INPUT code:
+
+```json
+{
+  "errors": [
+    {
+      "message": "Invalid input",
+      "extensions": {
+        "code": "BAD_USER_INPUT",
+        "details": {
+          "fields": [
+            {
+              "message": "min_not_met",
+              "path": ["description"],
+              "details": {
+                "min": 5
+              },
+              "locations": [
+                {
+                  "line": 6,
+                  "column": 7
+                }
+              ],
+              "custom_error_code": "min_not_met"
+            },
+            {
+              "message": "max_exceeded",
+              "path": ["title"],
+              "details": {
+                "max": 10
+              },
+              "locations": [
+                {
+                  "line": 7,
+                  "column": 7
+                }
+              ],
+              "custom_error_code": "max_exceeded"
+            }
+          ]
+        }
+      },
+      "locations": []
+    }
+  ]
+}
 ```

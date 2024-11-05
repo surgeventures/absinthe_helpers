@@ -98,21 +98,27 @@ defmodule AbsintheHelpers.Phases.ApplyTransformsTest do
       """
 
       assert TestSchema.run_query(query) ==
-               {
-                 :ok,
-                 %{
-                   errors: [
-                     %{
-                       message: :invalid_integer,
-                       details: %{field: "customer_id"}
-                     },
-                     %{
-                       message: :invalid_integer,
-                       details: %{field: "override_ids"}
-                     }
-                   ]
-                 }
-               }
+               {:ok,
+                %{
+                  errors: [
+                    %{
+                      details: %{},
+                      message: :invalid_integer,
+                      code: :invalid_integer,
+                      group_code: :BAD_USER_INPUT,
+                      locations: [%{line: 3, column: 5}],
+                      path: ["customer_id"]
+                    },
+                    %{
+                      details: %{},
+                      message: :invalid_integer,
+                      code: :invalid_integer,
+                      group_code: :BAD_USER_INPUT,
+                      locations: [%{line: 6, column: 7}],
+                      path: ["override_ids"]
+                    }
+                  ]
+                }}
     end
   end
 end
