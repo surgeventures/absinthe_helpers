@@ -91,26 +91,61 @@ defmodule AbsintheHelpers.Phases.ApplyConstraintsTest do
       }
       """
 
-      assert {:ok,
-              %{
-                errors: [
-                  %{
-                    message: :max_exceeded,
-                    details: %{field: "customer_id", max: 1000}
-                  },
-                  %{message: :min_not_met, details: %{field: "cost", min: 10}},
-                  %{message: :min_not_met, details: %{field: "description", min: 5}},
-                  %{message: :min_not_met, details: %{field: "override_ids", min: 5}},
-                  %{
-                    message: :min_items_not_met,
-                    details: %{field: "location_ids", min_items: 2}
-                  },
-                  %{
-                    message: :max_items_exceeded,
-                    details: %{field: "commission_ids", max_items: 2}
-                  }
-                ]
-              }} = TestSchema.run_query(query)
+      assert {
+               :ok,
+               %{
+                 errors: [
+                   %{
+                     details: %{max: 1000},
+                     message: :max_exceeded,
+                     code: :max_exceeded,
+                     group_code: :BAD_USER_INPUT,
+                     locations: [%{line: 3, column: 5}],
+                     path: ["customer_id"]
+                   },
+                   %{
+                     details: %{min: 10},
+                     message: :min_not_met,
+                     code: :min_not_met,
+                     group_code: :BAD_USER_INPUT,
+                     locations: [%{line: 5, column: 7}],
+                     path: ["cost"]
+                   },
+                   %{
+                     details: %{min: 5},
+                     message: :min_not_met,
+                     code: :min_not_met,
+                     group_code: :BAD_USER_INPUT,
+                     locations: [%{line: 6, column: 7}],
+                     path: ["description"]
+                   },
+                   %{
+                     details: %{min: 5},
+                     message: :min_not_met,
+                     code: :min_not_met,
+                     group_code: :BAD_USER_INPUT,
+                     locations: [%{line: 7, column: 7}],
+                     path: ["override_ids"]
+                   },
+                   %{
+                     details: %{min_items: 2},
+                     message: :min_items_not_met,
+                     code: :min_items_not_met,
+                     group_code: :BAD_USER_INPUT,
+                     locations: [%{line: 8, column: 7}],
+                     path: ["location_ids"]
+                   },
+                   %{
+                     details: %{max_items: 2},
+                     message: :max_items_exceeded,
+                     code: :max_items_exceeded,
+                     group_code: :BAD_USER_INPUT,
+                     locations: [%{line: 9, column: 7}],
+                     path: ["commission_ids"]
+                   }
+                 ]
+               }
+             } = TestSchema.run_query(query)
     end
 
     test "returns invalid_format on strings that do not match regex pattern" do
@@ -133,8 +168,12 @@ defmodule AbsintheHelpers.Phases.ApplyConstraintsTest do
               %{
                 errors: [
                   %{
+                    details: %{regex: "^[a-zA-Z ]+$"},
                     message: :invalid_format,
-                    details: %{field: "description", regex: "^[a-zA-Z\s]+$"}
+                    code: :invalid_format,
+                    group_code: :BAD_USER_INPUT,
+                    locations: [%{line: 6, column: 7}],
+                    path: ["description"]
                   }
                 ]
               }} = TestSchema.run_query(query)

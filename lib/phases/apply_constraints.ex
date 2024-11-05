@@ -139,8 +139,12 @@ defmodule AbsintheHelpers.Phases.ApplyConstraints do
     Phase.put_error(node, %Phase.Error{
       phase: __MODULE__,
       message: reason,
+      locations: [node.source_location],
       extra: %{
-        details: Map.merge(details, %{field: node.name})
+        group_code: :BAD_USER_INPUT,
+        code: reason,
+        path: [node.name],
+        details: details
       }
     })
   end

@@ -166,8 +166,12 @@ defmodule AbsintheHelpers.Phases.ApplyTransforms do
     Absinthe.Phase.put_error(node, %Absinthe.Phase.Error{
       phase: __MODULE__,
       message: reason,
+      locations: [node.source_location],
       extra: %{
-        details: Map.merge(details, %{field: node.name})
+        group_code: :BAD_USER_INPUT,
+        code: reason,
+        path: [node.name],
+        details: details
       }
     })
   end
